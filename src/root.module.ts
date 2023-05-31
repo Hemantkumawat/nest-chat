@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
-import * as dotenv from 'dotenv';
 import MongoDBModule from './modules/mongodb/mongodb.module';
-dotenv.config();
+import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [UserModule, MongoDBModule],
+  imports: [ConfigModule.forRoot(), UserModule, MongoDBModule, AuthModule,ChatModule],
   controllers: [],
   providers: [],
 })

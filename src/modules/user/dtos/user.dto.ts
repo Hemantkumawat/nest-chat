@@ -1,9 +1,23 @@
-export interface UserDto {
-  id: string;
-  userName: string;
+import { IsEmail, IsNotEmpty, IsPhoneNumber, Length } from 'class-validator';
+
+export class UserDto {
+  id:string;
+
+  @IsNotEmpty()
   firstName: string;
+
+  @IsNotEmpty()
   lastName: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsPhoneNumber()
+  phoneNumber: string;
+
+  @Length(2)
+  countryCode: string;
+
+  @IsNotEmpty()
+  password: string;
 }
