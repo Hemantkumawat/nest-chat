@@ -84,8 +84,8 @@ $ docker-compose up -d
   
 Make sure to replace `http://localhost:3000` with the appropriate hostname and port if you are running the application on a different server.
 
-###Contributing
+Contributing
 Feel free to contribute to this project by creating pull requests or reporting issues on the [GitHub repository]([abcd.com](https://github.com/Hemantkumawat/nest-chat))
 
-###License
+License
 This project not under any licence.
