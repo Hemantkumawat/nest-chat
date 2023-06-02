@@ -50,7 +50,7 @@ export class UserController {
 
     const cacheKey = `nest-users-find-all-${page}-${limit}`
     let cacheData = await this.cacheManager.get(cacheKey);
-    if (!cacheData) {
+    if (!cacheData || cacheData == '' || cacheData == undefined || cacheData == null) {
       const res = await this.userService.findAll(page, limit);
       const ress = await this.cacheManager.set(cacheKey, JSON.stringify(res))
       return { ...res, ress, cached: false, cachedData: cacheData };

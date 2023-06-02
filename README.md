@@ -10,6 +10,10 @@ This is an example application that provides User CRUD operations, Login and Reg
 - Pagination for the getAll Users API
 
 ## Installation
+
+### Installation using Video
+[![Video Title](https://vimeo.com/832616806/cfccc3233a)](https://vimeo.com/832616806/cfccc3233a)
+
 ### Manual Installation
 
 1. Ensure that you have Node.js v18.0 or later and MongoDB installed on your machine.
