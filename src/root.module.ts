@@ -4,6 +4,7 @@ import MongoDBModule from './modules/mongodb/mongodb.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ChatModule } from './chat/chat.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, MongoDBModule, AuthModule,ChatModule],

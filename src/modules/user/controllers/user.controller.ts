@@ -3,7 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -13,10 +15,12 @@ import { UserService } from '../services/user.service';
 import { UserDto } from '../dtos/user.dto';
 import { User } from 'src/modules/mongodb/schemas/user.schema';
 import { JwtAuthGuard } from 'src/modules/auth/auth.guard';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache, private readonly userService: UserService) { }
 
   @Post('/')
   @UseGuards(JwtAuthGuard)
@@ -38,8 +42,25 @@ export class UserController {
 
   @Get('/')
   @UseGuards(JwtAuthGuard)
-  findAll(@Query() query: object): Promise<User[]> {
-    return this.userService.findAll(query);
+  async findAll(
+    @Query('page', ParseIntPipe) page: number = 1, // Default page number is 1
+    @Query('limit', ParseIntPipe) limit: number = 10, // Default limit is 10 items per page
+  ): Promise<object | any> {
+    // await this.cacheManager.reset();
+
+    const cacheKey = `nest-users-find-all-${page}-${limit}`
+    let cacheData = await this.cacheManager.get(cacheKey);
+    if (!cacheData) {
+      const res = await this.userService.findAll(page, limit);
+      const ress = await this.cacheManager.set(cacheKey, JSON.stringify(res))
+      return { ...res, ress, cached: false, cachedData: cacheData };
+    }
+    let res = {};
+    cacheData = JSON.parse(cacheData.toString());
+    if (typeof cacheData == 'object') {
+      res = cacheData;
+    }
+    return { ...res, cached: true };
   }
 
   @Get('/:id')
